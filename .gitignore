@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Custom added
+cmake-build-debug/
+build/
+*.pdb
+.idea/
+.cache/
+compile_commands.json
