@@ -6,7 +6,6 @@
 #include "tile_registry.h"
 #include <cassert>
 #include <string_view>
-#include <iostream>
 
 Player::Player() {
     pos.x = 100 * tile_size;
@@ -34,21 +33,25 @@ void Player::Input() {
     if (inventoryState && IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !heldItem.isHeld) {
         int clickedSlot = GetClickedSlot();
 
-        std::cout << "clicked: " << clickedSlot << std::endl;
-
         heldItem = GetInventorySlot(clickedSlot);
-        heldItem.isHeld = true;
-        std::cout << heldItem.itemId << " " << heldItem.isHeld << std::endl;
-        SetInventorySlot(clickedSlot, {I_NONE, 0, 0, false});
-        std::cout << "";
+        if (heldItem.itemId != I_NONE) {
+            heldItem.isHeld = true;
+            SetInventorySlot(clickedSlot, {I_NONE, 0, 0, false});
+        }
     }
     else if (inventoryState && IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && heldItem.isHeld) {
-        std::cout << "we here bois" << std::endl;
-
         int clickedSlot = GetClickedSlot();
+        ItemData *clicked_inventory_slot = &GetInventorySlot(clickedSlot);
 
-        SetInventorySlot(clickedSlot, {heldItem.itemId, heldItem.count, heldItem.durability, false});
-        ClearHeldItem();
+        if (heldItem.itemId != clicked_inventory_slot->itemId) {
+            buffer = GetInventorySlot(clickedSlot);
+            SetInventorySlot(clickedSlot, {heldItem.itemId, heldItem.count, heldItem.durability, false});
+            heldItem = buffer;
+        } else if (heldItem.itemId == clicked_inventory_slot->itemId) {
+            clicked_inventory_slot->count += heldItem.count;
+            ClearHeldItem();
+        }
+
     }
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         Mine(); // also handling if the block is solid logic
@@ -189,13 +192,13 @@ void Player::DrawInventory() {
 
         itemdef = item_reg->Get(item.itemId);
         DrawTexture(*tman->GetTexture(itemdef.iconKey), (int)rec.x, (int)rec.y, WHITE);
+        DrawText(TextFormat("%d", item.count), (int)rec.x + 7, (int)rec.y + 7, 10, WHITE);
     }
 
     if (heldItem.isHeld) {
         itemdef = item_reg->Get(heldItem.itemId);
         Vector2 mp = GetMousePosition();
         DrawTexture(*tman->GetTexture(itemdef.iconKey), mp.x, mp.y, WHITE);
-        std::cout << "";
     }
 }
 

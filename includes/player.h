@@ -10,9 +10,9 @@
 #include <vector>
 
 struct ItemData {
-    int itemId;
-    int count;
-    int durability = 1;
+	int itemId;
+	int count;
+	int durability = 1;
 	bool isHeld = false;
 };
 
@@ -54,6 +54,7 @@ public:
 	bool inventoryState = false;
 	std::vector<Rectangle> slot_rectangles;
 	ItemData heldItem{0, 0, 0, false};
+	ItemData buffer{0, 0, 0, false};
 
 	void Draw();
 	void Input();
