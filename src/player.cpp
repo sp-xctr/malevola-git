@@ -47,11 +47,11 @@ void Player::Input() {
             buffer = GetInventorySlot(clickedSlot);
             SetInventorySlot(clickedSlot, {heldItem.itemId, heldItem.count, heldItem.durability, false});
             heldItem = buffer;
+            heldItem.isHeld = true;
         } else if (heldItem.itemId == clicked_inventory_slot->itemId) {
             clicked_inventory_slot->count += heldItem.count;
             ClearHeldItem();
         }
-
     }
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         Mine(); // also handling if the block is solid logic
@@ -174,6 +174,14 @@ void Player::CalcInvUIPoints() {
     for (int y = 1; y < 5; y++) {
         for (int x = 1; x < 11; x++) {
             slot_rectangles.push_back({(float) ((x * size) + x), (float) ((y * size) + y), size, size});
+        }
+    }
+
+    for (int i{}; i < 40; i++) {
+        if (i % 2 == 0) {
+            SetInventorySlot(i, {I_DIRT, 2, 12, false});
+        } else {
+            SetInventorySlot(i, {I_STONE, 2, 12, false});
         }
     }
 }

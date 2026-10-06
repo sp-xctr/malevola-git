@@ -55,11 +55,13 @@ void Game::RegAllTiles() {
     tile_reg.Register(T_NONE, {"none", false, 0});
     tile_reg.Register(T_AIR, {"tile-air", false, 0});
     tile_reg.Register(T_DIRT, {"tile-dirt", true, I_DIRT});
+    tile_reg.Register(T_STONE, {"tile-stone", true, I_STONE});
 }
 
 void Game::RegAllItems() {
     item_reg.Register(I_NONE, {"nonius nonais vais lais", "verygoodkey", Category::WEAPON, 9999, 0, 4444});
     item_reg.Register(I_DIRT, {"dirt", "icon-dirt", Category::BLOCK});
+    item_reg.Register(I_STONE, {"stone", "icon-stone", Category::BLOCK});
 }
 
 void Game::StartedDraw() {

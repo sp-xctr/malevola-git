@@ -48,7 +48,7 @@ public:
 	Sprite sprite;
 
 private:
-	std::vector<ItemData> inventory{40, {I_DIRT, 1}};
+	std::vector<ItemData> inventory{40};
 
 public:
 	bool inventoryState = false;
