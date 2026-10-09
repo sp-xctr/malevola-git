@@ -6,6 +6,7 @@
 #include "tile_registry.h"
 #include <cassert>
 #include <string_view>
+#include <iostream>
 
 Player::Player() {
     pos.x = 100 * tile_size;
@@ -16,7 +17,7 @@ Player::~Player() = default;
 
 void Player::Draw() { sprite.Draw(&pos); }
 
-void Player::Input() {
+void Player::Input(float dt) {
     direction.x = 0;
 
     if (IsKeyDown(KEY_D)) {
@@ -53,8 +54,15 @@ void Player::Input() {
             ClearHeldItem();
         }
     }
+
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-        Mine(); // also handling if the block is solid logic
+        float time = GetFrameTime();
+
+        elapsed += 2 * dt;
+
+        if (elapsed > 100) {
+            Mine(); // also handling if the block is solid logic
+        }
     }
 }
 
@@ -138,6 +146,7 @@ void Player::Mine() {
     if (tile_reg->Get((world->GetTile(tile_x, tile_y))).isSolid) {
         world->SetTile(tile_x, tile_y, T_AIR);
     };
+
 }
 
 int Player::GetClickedSlot() {
@@ -234,7 +243,7 @@ void Player::Move(float dt) {
 }
 
 void Player::Update(float dt) {
-    Input();
+    Input(dt);
 
     Move(dt);
 }

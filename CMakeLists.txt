@@ -33,7 +33,9 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 # Add source to this project's executable.
-add_executable (malevola "src/game.cpp" "includes/game.h" "malevola.cpp" "includes/player.h" "src/player.cpp" "includes/sprite.h" "src/sprite.cpp" "includes/texture_manager.h" "src/texture_manager.cpp" "includes/world.h" "src/world.cpp" "includes/tile_registry.h" "src/tile_registry.cpp" "includes/constants.h" "includes/item_registry.h" "src/item_registry.cpp")
+add_executable (malevola "src/game.cpp" "includes/game.h" "malevola.cpp" "includes/player.h" "src/player.cpp" "includes/sprite.h" "src/sprite.cpp" "includes/texture_manager.h" "src/texture_manager.cpp" "includes/world.h" "src/world.cpp"
+        "includes/tile_registry.h" "src/tile_registry.cpp" "includes/constants.h" "includes/item_registry.h" "src/item_registry.cpp"
+)
 
 target_include_directories(malevola PRIVATE "includes")
 

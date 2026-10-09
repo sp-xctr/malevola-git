@@ -30,7 +30,10 @@ public:
 	const float jump_strength = -1500.0f;
 	bool is_grounded = false;
 
+	// minor
 	float mine_range = 7.0f;
+	float duration = 2000.0f;
+	float elapsed = 0.0f;
 
 	int left_tile;
 	int right_tile;
@@ -57,7 +60,7 @@ public:
 	ItemData buffer{0, 0, 0, false};
 
 	void Draw();
-	void Input();
+	void Input(float dt);
 	void DrawInventory();
 	int GetClickedSlot();
 	void ClearHeldItem();
